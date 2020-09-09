@@ -80,7 +80,7 @@ void writeEEPROM(int address, byte data) {
 void printContents() {
   setReadMode();
 
-  for (int base = 0; base <= 255; base += 16) {
+  for (int base = 0; base <= 1792; base += 16) {
     byte data[16];
     for (int offset = 0; offset <= 15; offset += 1) {
       data[offset] = readEEPROM(base + offset);
@@ -134,6 +134,30 @@ void setup() {
   Serial.println("Programming sign");
   for (int value = 0; value <= 255; value += 1) {
     writeEEPROM(value + 768, 0);
+  }
+
+  Serial.println("Programming ones place (twos complement)");
+  for (int value = -128; value <= 127; value += 1) {
+    writeEEPROM((byte)value + 1024, digits[abs(value) % 10]);
+  }
+
+  Serial.println("Programming tens place (twos complement)");
+  for (int value = -128; value <= 127; value += 1) {
+    writeEEPROM((byte)value + 1280, digits[abs(value / 10) % 10]);
+  }
+
+  Serial.println("Programming hundreds place (twos complement)");
+  for (int value = -128; value <= 127; value += 1) {
+    writeEEPROM((byte)value + 1536, digits[abs(value / 100) % 10]);
+  }
+
+  Serial.println("Programming sign (twos complement)");
+  for (int value = -128; value <= 127; value += 1) {
+    if (value < 0) {
+      writeEEPROM((byte)value + 1792, 0x01);
+    } else {
+      writeEEPROM((byte)value + 1792, 0);
+    }
   }
 
   printContents();
