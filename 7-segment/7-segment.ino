@@ -77,10 +77,10 @@ void writeEEPROM(int address, byte data) {
   delay(10);
 }
 
-void printContents() {
+void printContents(int start, int length) {
   setReadMode();
 
-  for (int base = 0; base <= 1792; base += 16) {
+  for (int base = start; base < length; base += 16) {
     byte data[16];
     for (int offset = 0; offset <= 15; offset += 1) {
       data[offset] = readEEPROM(base + offset);
@@ -160,7 +160,7 @@ void setup() {
     }
   }
 
-  printContents();
+  printContents(0, 1792);
 }
 
 void loop() {
