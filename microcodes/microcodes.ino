@@ -42,22 +42,22 @@ const int dataPins[] = { D0, D1, D2, D3, D4, D5, D6, D7 };
 #define JZ  0b1000
 
 const uint16_t UCODE_TEMPLATE[16][8] = {
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 0000 - NOP
-  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,      RO|AI,  TR,           0,   0 },   // 0001 - LDA
-  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,      RO|BI,  EO|AI|FI,     TR,  0 },   // 0010 - ADD
-  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,      RO|BI,  EO|AI|SU|FI,  TR,  0 },   // 0011 - SUB
-  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,      AO|RI,  TR,           0,   0 },   // 0100 - STA
-  { MI|CO,  RO|II|CE,  MI|CO,  RO|AI|CE,      TR,     0,            0,   0 },   // 0101 - LDI
-  { MI|CO,  RO|II|CE,  MI|CO,  RO|J,          TR,     0,            0,   0 },   // 0110 - JMP
-  { MI|CO,  RO|II|CE,  CE,     TR,            0,      0,            0,   0 },   // 0111 - JC
-  { MI|CO,  RO|II|CE,  CE,     TR,            0,      0,            0,   0 },   // 1000 - JZ
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1001 - NOP
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1010 - NOP
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1011 - NOP
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1100 - NOP
-  { MI|CO,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1101 - NOP
-  { MI|CO,  RO|II|CE,  AO|OI,  TR,            0,      0,            0,   0 },   // 1110 - OUT
-  { MI|CO,  RO|II|CE,  MI|CO,  RO|OI|LE|CE,   MI|CO,  RO|OI|LE|CE,  TR,  0 },   // 1111 - LCD
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 0000 - NOP
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|MI|CE,      RO|AI,  TR,           0,   0 },   // 0001 - LDA
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|MI|CE,      RO|BI,  EO|AI|FI,     TR,  0 },   // 0010 - ADD
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|MI|CE,      RO|BI,  EO|AI|SU|FI,  TR,  0 },   // 0011 - SUB
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|MI|CE,      AO|RI,  TR,           0,   0 },   // 0100 - STA
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|AI|CE,      TR,     0,            0,   0 },   // 0101 - LDI
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|J,          TR,     0,            0,   0 },   // 0110 - JMP
+  { CO|MI,  RO|II|CE,  CE,     TR,            0,      0,            0,   0 },   // 0111 - JC
+  { CO|MI,  RO|II|CE,  CE,     TR,            0,      0,            0,   0 },   // 1000 - JZ
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1001 - NOP
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1010 - NOP
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1011 - NOP
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1100 - NOP
+  { CO|MI,  RO|II|CE,  TR,     0,             0,      0,            0,   0 },   // 1101 - NOP
+  { CO|MI,  RO|II|CE,  AO|OI,  TR,            0,      0,            0,   0 },   // 1110 - OUT
+  { CO|MI,  RO|II|CE,  CO|MI,  RO|OI|LE|CE,   MI|CO,  RO|OI|LE|CE,  TR,  0 },   // 1111 - LCD
 };
 
 uint16_t ucode[4][16][8];
@@ -68,23 +68,23 @@ void initUCode() {
 
   // ZF = 0, CF = 1
   memcpy(ucode[FLAGS_Z0C1], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE));
-  ucode[FLAGS_Z0C1][JC][2] = MI|CO;
+  ucode[FLAGS_Z0C1][JC][2] = CO|MI;
   ucode[FLAGS_Z0C1][JC][3] = RO|J;
   ucode[FLAGS_Z0C1][JC][4] = TR;
 
   // ZF = 1, CF = 0
   memcpy(ucode[FLAGS_Z1C0], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE));
-  ucode[FLAGS_Z1C0][JZ][2] = MI|CO;
+  ucode[FLAGS_Z1C0][JZ][2] = CO|MI;
   ucode[FLAGS_Z1C0][JZ][3] = RO|J;
   ucode[FLAGS_Z1C0][JZ][4] = TR;
 
   // ZF = 1, CF = 1
   memcpy(ucode[FLAGS_Z1C1], UCODE_TEMPLATE, sizeof(UCODE_TEMPLATE));
-  ucode[FLAGS_Z1C1][JC][2] = MI|CO;
+  ucode[FLAGS_Z1C1][JC][2] = CO|MI;
   ucode[FLAGS_Z1C1][JC][3] = RO|J;
   ucode[FLAGS_Z1C1][JC][4] = TR;
 
-  ucode[FLAGS_Z1C1][JZ][2] = MI|CO;
+  ucode[FLAGS_Z1C1][JZ][2] = CO|MI;
   ucode[FLAGS_Z1C1][JZ][3] = RO|J;
   ucode[FLAGS_Z1C1][JZ][4] = TR;
 }
