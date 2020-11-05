@@ -42,22 +42,22 @@ const int dataPins[] = { D0, D1, D2, D3, D4, D5, D6, D7 };
 #define JZ  0b1000
 
 const uint16_t UCODE_TEMPLATE[16][8] = {
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 0000 - NOP
-  { MI|CO,  RO|II|CE,  MI|CO,     MI|RO|CE,     RO|AI,        TR,          0,   0 },    // 0001 - LDA
-  { MI|CO,  RO|II|CE,  MI|CO,     MI|RO|CE,     RO|BI,        EO|AI|FI,    TR,  0 },    // 0010 - ADD
-  { MI|CO,  RO|II|CE,  MI|CO,     MI|RO|CE,     RO|BI,        EO|AI|SU|FI, TR,  0 },    // 0011 - SUB
-  { MI|CO,  RO|II|CE,  MI|CO,     MI|RO|CE,     AO|RI,        TR,          0,   0 },    // 0100 - STA
-  { MI|CO,  RO|II|CE,  MI|CO,     RO|AI|CE,     TR,           0,           0,   0 },    // 0101 - LDI
-  { MI|CO,  RO|II|CE,  MI|CO,     RO|J,         TR,           0,           0,   0 },    // 0110 - JMP
-  { MI|CO,  RO|II|CE,  CE,        TR,           0,            0,           0,   0 },    // 0111 - JC
-  { MI|CO,  RO|II|CE,  CE,        TR,           0,            0,           0,   0 },    // 1000 - JZ
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 1001 - NOP
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 1010 - NOP
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 1011 - NOP
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 1100 - NOP
-  { MI|CO,  RO|II|CE,  TR,        0,            0,            0,           0,   0 },    // 1101 - NOP
-  { MI|CO,  RO|II|CE,  AO|OI,     TR,           0,            0,           0,   0 },    // 1110 - OUT
-  { MI|CO,  RO|II|CE,  HLT,       0,            0,            0,           0,   0 },    // 1111 - HLT
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 0000 - NOP
+  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,  RO|AI,  TR,           0,   0 },   // 0001 - LDA
+  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,  RO|BI,  EO|AI|FI,     TR,  0 },   // 0010 - ADD
+  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,  RO|BI,  EO|AI|SU|FI,  TR,  0 },   // 0011 - SUB
+  { MI|CO,  RO|II|CE,  MI|CO,  MI|RO|CE,  AO|RI,  TR,           0,   0 },   // 0100 - STA
+  { MI|CO,  RO|II|CE,  MI|CO,  RO|AI|CE,  TR,     0,            0,   0 },   // 0101 - LDI
+  { MI|CO,  RO|II|CE,  MI|CO,  RO|J,      TR,     0,            0,   0 },   // 0110 - JMP
+  { MI|CO,  RO|II|CE,  CE,     TR,        0,      0,            0,   0 },   // 0111 - JC
+  { MI|CO,  RO|II|CE,  CE,     TR,        0,      0,            0,   0 },   // 1000 - JZ
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 1001 - NOP
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 1010 - NOP
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 1011 - NOP
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 1100 - NOP
+  { MI|CO,  RO|II|CE,  TR,     0,         0,      0,            0,   0 },   // 1101 - NOP
+  { MI|CO,  RO|II|CE,  AO|OI,  TR,        0,      0,            0,   0 },   // 1110 - OUT
+  { MI|CO,  RO|II|CE,  HLT,    0,         0,      0,            0,   0 },   // 1111 - HLT
 };
 
 uint16_t ucode[4][16][8];
